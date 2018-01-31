@@ -9,21 +9,67 @@ import javax.swing.*;
  * Created by shenhua on 2018-01-31-0031.
  *
  * @author shenhua
- *         Email shenhuanet@126.com
+ * Email shenhuanet@126.com
  */
 public interface ITabs {
 
-    ITabs addTab(JComponent component, String name);
+    /**
+     * 添加一个tab
+     *
+     * @param component tab内容
+     * @param name      tab标题
+     */
+    void addTab(JComponent component, String name);
 
+    /**
+     * 获取tab总数
+     *
+     * @return tab总数
+     */
     int getTabCount();
 
+    /**
+     * 获取指定位置的tab
+     *
+     * @param index index
+     * @return TabInfo
+     */
     TabInfo getTabAt(int index);
 
+    /**
+     * 关闭指定位置的tab
+     *
+     * @param index index
+     * @return ITabs
+     */
     ITabs closeTabAt(int index);
 
+    /**
+     * 关闭当前的tab
+     *
+     * @return ITabs
+     */
     ITabs closeCurrentTab();
 
+    /**
+     * 获取指定位置的tab标题
+     *
+     * @param index index
+     * @return tab标题
+     */
+    String getTitleAt(int index);
+
+    /**
+     * 获取当前组件
+     *
+     * @return JComponent
+     */
     JComponent getCurrentComponent();
 
+    /**
+     * 获取JBEditorTabs
+     *
+     * @return JBEditorTabs
+     */
     JBEditorTabs getComponent();
 }

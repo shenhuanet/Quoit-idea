@@ -22,6 +22,6 @@ public class AddTabAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
-//        quoitContent.createNewTab()
+        quoitContent.createNewTab();
     }
 }

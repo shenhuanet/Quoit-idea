@@ -20,6 +20,7 @@
             <item value="url"/>
             <item value="text"/>
           </model>
+          <visible value="false"/>
         </properties>
       </component>
       <hspacer id="7913">
@@ -58,7 +59,11 @@
                   <component id="34042" class="javax.swing.JTextArea" binding="textArea">
                     <constraints/>
                     <properties>
+                      <foreground color="-12741804"/>
+                      <lineWrap value="true"/>
                       <opaque value="false"/>
+                      <selectionColor color="-5123081"/>
+                      <wrapStyleWord value="true"/>
                     </properties>
                   </component>
                 </children>
