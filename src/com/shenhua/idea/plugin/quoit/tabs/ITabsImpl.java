@@ -8,6 +8,7 @@ import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.tabs.TabInfo;
 import com.intellij.ui.tabs.TabsListener;
 import com.intellij.ui.tabs.impl.JBEditorTabs;
+import com.shenhua.idea.plugin.quoit.callback.OnTabCloseListener;
 
 import javax.swing.*;
 
@@ -15,41 +16,41 @@ import javax.swing.*;
  * Created by shenhua on 2018-01-31-0031.
  *
  * @author shenhua
- * Email shenhuanet@126.com
+ *         Email shenhuanet@126.com
  */
 public class ITabsImpl implements ITabs {
 
     private JBEditorTabs mTabs;
+    private OnTabCloseListener onTabCloseListener;
 
     ITabsImpl(Project project, Disposable disposable) {
         mTabs = new JBEditorTabs(project, ActionManager.getInstance(), IdeFocusManager.getInstance(project), disposable);
+        TabsListener tabListener = new TabsListener() {
+            @Override
+            public void selectionChanged(TabInfo tabInfo, TabInfo tabInfo1) {
+
+            }
+
+            @Override
+            public void beforeSelectionChanged(TabInfo tabInfo, TabInfo tabInfo1) {
+
+            }
+
+            @Override
+            public void tabRemoved(TabInfo tabInfo) {
+                if (onTabCloseListener != null && getTabCount() == 1) {
+                    onTabCloseListener.onLast();
+                }
+            }
+
+            @Override
+            public void tabsMoved() {
+
+            }
+        };
         mTabs.addListener(tabListener);
         mTabs.setTabDraggingEnabled(true);
     }
-
-    private TabsListener tabListener = new TabsListener() {
-        @Override
-        public void selectionChanged(TabInfo tabInfo, TabInfo tabInfo1) {
-
-        }
-
-        @Override
-        public void beforeSelectionChanged(TabInfo tabInfo, TabInfo tabInfo1) {
-
-        }
-
-        @Override
-        public void tabRemoved(TabInfo tabInfo) {
-//            if (mListener != null && getTabCount() == 1) {
-//                mListener.onLast();
-//            }
-        }
-
-        @Override
-        public void tabsMoved() {
-
-        }
-    };
 
     @Override
     public void addTab(JComponent component, String name) {
@@ -61,6 +62,11 @@ public class ITabsImpl implements ITabs {
     @Override
     public int getTabCount() {
         return mTabs.getTabCount();
+    }
+
+    @Override
+    public int getCurrentIndex() {
+        return mTabs.getIndexOf(mTabs.getSelectedInfo());
     }
 
     @Override
@@ -83,17 +89,29 @@ public class ITabsImpl implements ITabs {
     }
 
     @Override
+    public TabInfo getCurrentTab() {
+        return mTabs.getSelectedInfo();
+    }
+
+    @Override
     public String getTitleAt(int index) {
         return getTabAt(index).getText();
     }
 
     @Override
     public JComponent getCurrentComponent() {
+        if (mTabs.getSelectedInfo() == null) {
+            return null;
+        }
         return mTabs.getSelectedInfo().getComponent();
     }
 
     @Override
     public JBEditorTabs getComponent() {
         return mTabs;
+    }
+
+    void setOnTabCloseListener(OnTabCloseListener onTabCloseListener) {
+        this.onTabCloseListener = onTabCloseListener;
     }
 }

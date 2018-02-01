@@ -9,7 +9,7 @@ import javax.swing.*;
  * Created by shenhua on 2018-01-31-0031.
  *
  * @author shenhua
- * Email shenhuanet@126.com
+ *         Email shenhuanet@126.com
  */
 public interface ITabs {
 
@@ -27,6 +27,13 @@ public interface ITabs {
      * @return tab总数
      */
     int getTabCount();
+
+    /**
+     * 获取当前选中的tab index
+     *
+     * @return index
+     */
+    int getCurrentIndex();
 
     /**
      * 获取指定位置的tab
@@ -50,6 +57,13 @@ public interface ITabs {
      * @return ITabs
      */
     ITabs closeCurrentTab();
+
+    /**
+     * 获取当前的tab
+     *
+     * @return ITabs
+     */
+    TabInfo getCurrentTab();
 
     /**
      * 获取指定位置的tab标题

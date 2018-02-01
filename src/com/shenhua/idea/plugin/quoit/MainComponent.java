@@ -67,7 +67,7 @@ public class MainComponent extends AbstractProjectComponent {
                 new SaveAction(quoitContent),
                 new AddTabAction(quoitContent),
                 new SettingAction(),
-                new CloseAction());
+                new CloseAction(quoitContent));
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.UNKNOWN, group, false);
         toolbar.setOrientation(SwingConstants.VERTICAL);
         return toolbar;

@@ -11,6 +11,8 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.content.ContentManagerUtil;
+import com.shenhua.idea.plugin.quoit.tabs.ITabs;
+import com.shenhua.idea.plugin.quoit.tabs.QuoitContent;
 
 /**
  * Created by shenhua on 2018-01-31-0031.
@@ -20,12 +22,24 @@ import com.intellij.ui.content.ContentManagerUtil;
  */
 public class CloseAction extends AnAction implements DumbAware {
 
-    public CloseAction() {
+    private QuoitContent quoitContent;
+
+    public CloseAction(QuoitContent quoitContent) {
         super("close", "close close", AllIcons.Actions.Cancel);
+        this.quoitContent = quoitContent;
     }
 
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
+        ITabs tabs = quoitContent.getTabs();
+        if (tabs == null || tabs.getTabCount() < 2) {
+            close(anActionEvent);
+        } else {
+            quoitContent.closeCurrentTab();
+        }
+    }
+
+    private void close(AnActionEvent anActionEvent) {
         ContentManager var2 = ContentManagerUtil.getContentManagerFromContext(anActionEvent.getDataContext(), true);
         boolean var3 = false;
         if (var2 != null && var2.canCloseContents()) {
