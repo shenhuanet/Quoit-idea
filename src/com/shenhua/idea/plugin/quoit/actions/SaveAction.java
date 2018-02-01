@@ -3,6 +3,10 @@ package com.shenhua.idea.plugin.quoit.actions;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.project.Project;
+import com.shenhua.idea.plugin.quoit.core.History;
+import com.shenhua.idea.plugin.quoit.core.HistoryConfigImpl;
 import com.shenhua.idea.plugin.quoit.tabs.QuoitContent;
 
 /**

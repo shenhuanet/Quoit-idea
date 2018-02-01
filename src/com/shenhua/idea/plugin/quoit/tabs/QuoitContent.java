@@ -27,12 +27,14 @@ public class QuoitContent extends JPanel implements ITabbedWidget {
      * main first add
      */
     private JComponent mJComponent;
+    private HistoryWidget historyWidget;
 
     public QuoitContent(Project mProject, Disposable mDisposable) {
         super(new BorderLayout());
         this.mProject = mProject;
         this.mDisposable = mDisposable;
-        this.add(new HistoryWidget().historyPanel, BorderLayout.EAST);
+        historyWidget = new HistoryWidget(mProject,this);
+        this.add(historyWidget.historyPanel, BorderLayout.EAST);
     }
 
     @Override
@@ -82,6 +84,10 @@ public class QuoitContent extends JPanel implements ITabbedWidget {
 
     public ITabs getTabs() {
         return mTabs;
+    }
+
+    public HistoryWidget getHistoryWidget() {
+        return historyWidget;
     }
 
     private static String generateUniqueName(String suggestedName, ITabs tabs) {

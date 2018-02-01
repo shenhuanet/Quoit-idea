@@ -4,10 +4,13 @@ import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.ApplicationManager;
+import com.shenhua.idea.plugin.quoit.core.ApiImpl;
 import com.shenhua.idea.plugin.quoit.tabs.ITabs;
 import com.shenhua.idea.plugin.quoit.tabs.QuoitContent;
 import com.shenhua.idea.plugin.quoit.ui.ContentWidget;
 import org.apache.http.util.TextUtils;
+
+import javax.swing.*;
 
 /**
  * Created by shenhua on 2018-01-31-0031.
@@ -35,12 +38,16 @@ public class ExecAction extends AnAction {
         }
         String text = contentWidget.getText();
         if (TextUtils.isEmpty(text)) {
+            contentWidget.setInfo("Please Input content.");
             return;
         }
         ApplicationManager.getApplication().invokeLater(() -> {
-            System.out.println("---- " + text);
-//                Icon icon = new ApiImpl().getCode(text);
-//                quoitContent.getInnerWidget().setQRcode(icon);
+            System.out.println("执行文本:" + text);
+            Icon icon = new ApiImpl().getCode(text);
+            contentWidget.setQRcode(icon);
+            if (!quoitContent.getHistoryWidget().hasSame(text)) {
+                quoitContent.getHistoryWidget().insert(text);
+            }
         });
     }
 }

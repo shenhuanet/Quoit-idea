@@ -21,13 +21,10 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="5080d" class="com.intellij.ui.components.JBList">
+          <component id="5080d" class="com.intellij.ui.components.JBList" binding="jList">
             <constraints border-constraint="Center"/>
             <properties>
-              <model>
-                <item value="http://www.baidu.com"/>
-                <item value="http://www.qq.com"/>
-              </model>
+              <model/>
             </properties>
           </component>
         </children>

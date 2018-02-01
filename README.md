@@ -4,7 +4,7 @@
 
 ![](https://github.com/shenhuanet/Quoit-idea/blob/master/.idea/icon.png)
 
-A plug-in that generates a two-dimensional code of a specific text.
+A plug-in that generates QR Code of a specific text.
 
 ## About Me
 CSDN：http://blog.csdn.net/klxh2009<br>

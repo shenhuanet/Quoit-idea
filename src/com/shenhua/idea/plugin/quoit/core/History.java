@@ -1,5 +1,6 @@
 package com.shenhua.idea.plugin.quoit.core;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,11 +9,16 @@ import java.util.Date;
  *
  * @author shenhua
  */
-public class History {
+public class History implements Serializable {
 
+    private static final long serialVersionUID = 9009838685298110158L;
     private String text;
     private Date date;
     private String cache;
+
+    public History(String text) {
+        this.text = text;
+    }
 
     public String getText() {
         return text;

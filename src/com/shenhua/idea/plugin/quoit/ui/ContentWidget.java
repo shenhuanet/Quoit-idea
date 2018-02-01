@@ -25,6 +25,7 @@ public class ContentWidget extends JPanel implements ActionListener {
     private JTextArea textArea;
     private JComboBox comboBox1;
     private JLabel mQRlabel;
+    private JLabel LabelInfo;
 
     public ContentWidget(Project mProject, Disposable mDisposable) {
         super(new BorderLayout());
@@ -73,8 +74,16 @@ public class ContentWidget extends JPanel implements ActionListener {
         return textArea.getText();
     }
 
+    public void setText(String text) {
+        textArea.setText(text);
+    }
+
     public void setQRcode(Icon icon) {
         mQRlabel.setIcon(icon);
+    }
+
+    public void setInfo(String text) {
+        LabelInfo.setText(text);
     }
 
     @Override
