@@ -11,30 +11,31 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * Created by shenhua on 2018-01-27-0027.
+ * Created by shenhua on 2018-02-01-0001.
  *
  * @author shenhua
  *         Email shenhuanet@126.com
  */
-public class InnerWidget implements ActionListener {
+public class ContentWidget extends JPanel implements ActionListener {
 
     private Project mProject;
     private Disposable mDisposable;
-    public JPanel container;
-    private JComboBox comboBox1;
-    private JTextArea textArea;
-    private JLabel mQRlabel;
-    private JComboBox type;
 
-    public InnerWidget(Project mProject, Disposable mDisposable) {
+    private JPanel mContent;
+    private JTextArea textArea;
+    private JComboBox comboBox1;
+    private JLabel mQRlabel;
+
+    public ContentWidget(Project mProject, Disposable mDisposable) {
+        super(new BorderLayout());
         this.mProject = mProject;
         this.mDisposable = mDisposable;
+        this.add(mContent, BorderLayout.CENTER);
 
         setUpTextArea();
     }
 
     private void setUpTextArea() {
-//        textArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true));
         textArea.setMargin(new Insets(2, 2, 2, 2));
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -68,21 +69,16 @@ public class InnerWidget implements ActionListener {
         mItemCut.addActionListener(menuAction);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-    /**
-     * 获取文本
-     *
-     * @return text
-     */
     public String getText() {
         return textArea.getText();
     }
 
     public void setQRcode(Icon icon) {
         mQRlabel.setIcon(icon);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }

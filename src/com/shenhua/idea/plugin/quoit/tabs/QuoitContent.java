@@ -3,17 +3,16 @@ package com.shenhua.idea.plugin.quoit.tabs;
 import com.google.common.collect.Sets;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
-import com.intellij.ui.components.JBPanel;
-import com.shenhua.idea.plugin.quoit.callback.OnTabCloseListener;
+import com.shenhua.idea.plugin.quoit.Constant;
+import com.shenhua.idea.plugin.quoit.ui.ContentWidget;
 import com.shenhua.idea.plugin.quoit.ui.HistoryWidget;
-import com.shenhua.idea.plugin.quoit.ui.InnerWidget;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Set;
 
 /**
+ * 内容管理(tab/content)
  * Created by shenhua on 2018-01-31-0031.
  *
  * @author shenhua
@@ -23,37 +22,30 @@ public class QuoitContent extends JPanel implements ITabbedWidget {
 
     private Project mProject;
     private Disposable mDisposable;
-    private JBPanel<JBPanel> mPanel;
     private ITabs mTabs;
     /**
      * main first add
      */
     private JComponent mJComponent;
-    private InnerWidget mInnerWidget;
-    private ArrayList<InnerWidget> mWidgets = new ArrayList<>();
 
     public QuoitContent(Project mProject, Disposable mDisposable) {
         super(new BorderLayout());
         this.mProject = mProject;
         this.mDisposable = mDisposable;
-        mPanel = new JBPanel<>(new BorderLayout());
-        mPanel.add(this, BorderLayout.CENTER);
         this.add(new HistoryWidget().historyPanel, BorderLayout.EAST);
     }
 
     @Override
     public void createNewTab() {
-        mInnerWidget = new InnerWidget(mProject, mDisposable);
-        mWidgets.add(mInnerWidget);
-        JComponent jComponent = mInnerWidget.container;
+        ContentWidget contentWidget = new ContentWidget(mProject, mDisposable);
         if (mJComponent == null) {
-            mJComponent = jComponent;
+            mJComponent = contentWidget;
             this.add(mJComponent, BorderLayout.CENTER);
         } else {
             if (mTabs == null) {
                 mTabs = setupTabs();
             }
-            addTab(jComponent, mTabs);
+            addTab(contentWidget, mTabs);
         }
     }
 
@@ -75,28 +67,17 @@ public class QuoitContent extends JPanel implements ITabbedWidget {
     }
 
     private void addTab(JComponent jComponent, ITabs tabs) {
-        tabs.addTab(jComponent, generateUniqueName("tab", tabs));
-//        mWidgets.add(mInnerWidget);
+        tabs.addTab(jComponent, generateUniqueName(Constant.TAB_SUGGESTED_NAME, tabs));
     }
 
     @Override
     public void closeCurrentTab() {
-        ITabs iTabs = mTabs.closeCurrentTab();
-        int index = iTabs.getCurrentIndex();
-        mWidgets.remove(index + 1);
+        mTabs.closeCurrentTab();
     }
 
     @Override
     public JComponent getComponent() {
-        return mPanel;
-    }
-
-    public InnerWidget getInnerWidget() {
-        return mInnerWidget;
-    }
-
-    public ArrayList<InnerWidget> getWidgets() {
-        return mWidgets;
+        return mJComponent;
     }
 
     public ITabs getTabs() {

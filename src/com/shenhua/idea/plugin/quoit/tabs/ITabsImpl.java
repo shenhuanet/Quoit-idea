@@ -65,11 +65,6 @@ public class ITabsImpl implements ITabs {
     }
 
     @Override
-    public int getCurrentIndex() {
-        return mTabs.getIndexOf(mTabs.getSelectedInfo());
-    }
-
-    @Override
     public TabInfo getTabAt(int index) {
         return mTabs.getTabAt(index);
     }
@@ -83,9 +78,8 @@ public class ITabsImpl implements ITabs {
     }
 
     @Override
-    public ITabs closeCurrentTab() {
+    public void closeCurrentTab() {
         mTabs.removeTab(mTabs.getSelectedInfo());
-        return this;
     }
 
     @Override

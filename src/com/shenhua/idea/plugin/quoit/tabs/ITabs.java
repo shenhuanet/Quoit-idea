@@ -29,13 +29,6 @@ public interface ITabs {
     int getTabCount();
 
     /**
-     * 获取当前选中的tab index
-     *
-     * @return index
-     */
-    int getCurrentIndex();
-
-    /**
      * 获取指定位置的tab
      *
      * @param index index
@@ -53,15 +46,13 @@ public interface ITabs {
 
     /**
      * 关闭当前的tab
-     *
-     * @return ITabs
      */
-    ITabs closeCurrentTab();
+    void closeCurrentTab();
 
     /**
-     * 获取当前的tab
+     * 获取当前的TabInfo
      *
-     * @return ITabs
+     * @return TabInfo
      */
     TabInfo getCurrentTab();
 

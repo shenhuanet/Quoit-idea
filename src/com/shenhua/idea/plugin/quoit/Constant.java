@@ -8,5 +8,6 @@ package com.shenhua.idea.plugin.quoit;
  */
 public class Constant {
 
-    public static final String TOOL_WINDOW_ID = "Quoit";
+    static final String TOOL_WINDOW_ID = "Quoit";
+    public static final String TAB_SUGGESTED_NAME = "Tab";
 }

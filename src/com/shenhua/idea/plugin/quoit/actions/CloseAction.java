@@ -25,7 +25,7 @@ public class CloseAction extends AnAction implements DumbAware {
     private QuoitContent quoitContent;
 
     public CloseAction(QuoitContent quoitContent) {
-        super("close", "close close", AllIcons.Actions.Cancel);
+        super("close", "close tab", AllIcons.Actions.Cancel);
         this.quoitContent = quoitContent;
     }
 

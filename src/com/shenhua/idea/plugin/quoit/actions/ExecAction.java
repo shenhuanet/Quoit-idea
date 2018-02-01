@@ -4,15 +4,10 @@ import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.ApplicationManager;
-import com.shenhua.idea.plugin.quoit.core.ApiImpl;
 import com.shenhua.idea.plugin.quoit.tabs.ITabs;
 import com.shenhua.idea.plugin.quoit.tabs.QuoitContent;
-import com.shenhua.idea.plugin.quoit.ui.InnerWidget;
+import com.shenhua.idea.plugin.quoit.ui.ContentWidget;
 import org.apache.http.util.TextUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Created by shenhua on 2018-01-31-0031.
@@ -32,15 +27,13 @@ public class ExecAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
         ITabs tabs = quoitContent.getTabs();
-        ArrayList<InnerWidget> widgets = quoitContent.getWidgets();
-        InnerWidget innerWidget;
+        ContentWidget contentWidget;
         if (tabs == null) {
-            innerWidget = widgets.get(0);
+            contentWidget = (ContentWidget) quoitContent.getComponent();
         } else {
-            int index = quoitContent.getTabs().getCurrentIndex();
-            innerWidget = widgets.get(index);
+            contentWidget = (ContentWidget) tabs.getCurrentComponent();
         }
-        String text = innerWidget.getText();
+        String text = contentWidget.getText();
         if (TextUtils.isEmpty(text)) {
             return;
         }
