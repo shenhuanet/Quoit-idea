@@ -3,7 +3,7 @@ package com.shenhua.idea.plugin.quoit.tabs;
 import com.google.common.collect.Sets;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
-import com.shenhua.idea.plugin.quoit.Constant;
+import com.shenhua.idea.plugin.quoit.ext.Constant;
 import com.shenhua.idea.plugin.quoit.ui.ContentWidget;
 import com.shenhua.idea.plugin.quoit.ui.HistoryWidget;
 

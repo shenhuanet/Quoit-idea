@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.ApplicationManager;
 import com.shenhua.idea.plugin.quoit.core.ApiImpl;
+import com.shenhua.idea.plugin.quoit.ext.Utils;
 import com.shenhua.idea.plugin.quoit.tabs.ITabs;
 import com.shenhua.idea.plugin.quoit.tabs.QuoitContent;
 import com.shenhua.idea.plugin.quoit.ui.ContentWidget;
@@ -29,20 +30,13 @@ public class ExecAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
-        ITabs tabs = quoitContent.getTabs();
-        ContentWidget contentWidget;
-        if (tabs == null) {
-            contentWidget = (ContentWidget) quoitContent.getComponent();
-        } else {
-            contentWidget = (ContentWidget) tabs.getCurrentComponent();
-        }
+        ContentWidget contentWidget = Utils.getCurrentContent(quoitContent);
         String text = contentWidget.getText();
         if (TextUtils.isEmpty(text)) {
             contentWidget.setInfo("Please Input content.");
             return;
         }
         ApplicationManager.getApplication().invokeLater(() -> {
-            System.out.println("执行文本:" + text);
             Icon icon = new ApiImpl().getCode(text);
             contentWidget.setQRcode(icon);
             if (!quoitContent.getHistoryWidget().hasSame(text)) {

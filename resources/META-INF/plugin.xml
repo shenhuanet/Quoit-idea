@@ -26,8 +26,8 @@
         <toolWindow id="Quoit" icon="/icon/logo_13.png" anchor="bottom"
                     canCloseContents="true"
                     factoryClass="com.shenhua.idea.plugin.quoit.ui.QuoitView"/>
-        <projectService serviceInterface="com.shenhua.idea.plugin.quoit.core.HistoryConfig"
-                        serviceImplementation="com.shenhua.idea.plugin.quoit.core.HistoryConfig"/>
+        <projectService serviceInterface="com.shenhua.idea.plugin.quoit.core.history.HistoryConfig"
+                        serviceImplementation="com.shenhua.idea.plugin.quoit.core.history.HistoryConfig"/>
     </extensions>
 
     <project-components>

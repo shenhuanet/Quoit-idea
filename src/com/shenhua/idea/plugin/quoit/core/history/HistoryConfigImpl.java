@@ -1,6 +1,5 @@
-package com.shenhua.idea.plugin.quoit.core;
+package com.shenhua.idea.plugin.quoit.core.history;
 
-import b.c.H;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
@@ -60,7 +59,6 @@ public class HistoryConfigImpl implements Configurable {
     @Override
     public void apply() throws ConfigurationException {
         historyConfig.setHistories(histories);
-        System.out.println("添加成功!" + histories.size());
     }
 
     /**

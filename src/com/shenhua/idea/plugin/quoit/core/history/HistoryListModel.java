@@ -1,4 +1,4 @@
-package com.shenhua.idea.plugin.quoit.core;
+package com.shenhua.idea.plugin.quoit.core.history;
 
 import javax.swing.*;
 import javax.swing.event.ListDataListener;

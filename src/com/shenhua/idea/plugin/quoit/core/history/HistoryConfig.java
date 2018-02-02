@@ -1,11 +1,10 @@
-package com.shenhua.idea.plugin.quoit.core;
+package com.shenhua.idea.plugin.quoit.core.history;
 
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,13 +31,11 @@ public class HistoryConfig implements PersistentStateComponent<HistoryConfig> {
     @Nullable
     @Override
     public HistoryConfig getState() {
-        System.out.println("--- getState");
         return this;
     }
 
     @Override
     public void loadState(HistoryConfig historyConfig) {
-        System.out.println("--- loadState");
         XmlSerializerUtil.copyBean(historyConfig, this);
     }
 

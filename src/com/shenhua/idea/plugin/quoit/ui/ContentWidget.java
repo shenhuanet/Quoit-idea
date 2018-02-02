@@ -1,14 +1,21 @@
 package com.shenhua.idea.plugin.quoit.ui;
 
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.fileChooser.FileChooserFactory;
+import com.intellij.openapi.fileChooser.FileSaverDescriptor;
+import com.intellij.openapi.fileChooser.FileSaverDialog;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFileWrapper;
+import com.intellij.util.ui.JBUI;
+import com.shenhua.idea.plugin.quoit.core.tasks.SavingImageTask;
+import com.shenhua.idea.plugin.quoit.ext.Utils;
+import org.apache.http.util.TextUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.datatransfer.*;
+import java.awt.event.*;
 
 /**
  * Created by shenhua on 2018-02-01-0001.
@@ -20,12 +27,11 @@ public class ContentWidget extends JPanel implements ActionListener {
 
     private Project mProject;
     private Disposable mDisposable;
-
     private JPanel mContent;
     private JTextArea textArea;
     private JComboBox comboBox1;
     private JLabel mQRlabel;
-    private JLabel LabelInfo;
+    private JLabel labelInfo;
 
     public ContentWidget(Project mProject, Disposable mDisposable) {
         super(new BorderLayout());
@@ -33,41 +39,109 @@ public class ContentWidget extends JPanel implements ActionListener {
         this.mDisposable = mDisposable;
         this.add(mContent, BorderLayout.CENTER);
 
-        setUpTextArea();
+        setupTextArea();
+        setupImage();
     }
 
-    private void setUpTextArea() {
-        textArea.setMargin(new Insets(2, 2, 2, 2));
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-
-        PopupMenu pMenu = new PopupMenu();
-        MenuItem mItemCopy = new MenuItem("Copy");
-        MenuItem mItemPaste = new MenuItem("Paste");
-        MenuItem mItemCut = new MenuItem("Cut");
-        MouseAdapter mouseAdapter = new MouseAdapter() {
+    private void setupImage() {
+        mQRlabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent event) {
-                if (event.getButton() == MouseEvent.BUTTON3) {
-                    pMenu.show(textArea, event.getX(), event.getY());
+            public void mouseClicked(MouseEvent e) {
+                if ((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0) {
+                    JPopupMenu jPopupMenu = new JPopupMenu();
+                    JMenuItem saveLine = new JMenuItem("Save", AllIcons.Actions.Menu_saveall);
+                    saveLine.setAccelerator(KeyStroke.getKeyStroke('S', KeyEvent.CTRL_MASK, false));
+                    saveLine.addActionListener(e1 -> {
+                        saveQRcode();
+
+                    });
+                    jPopupMenu.add(saveLine);
+                    if (mQRlabel.getIcon() == null) {
+                        saveLine.setEnabled(false);
+                    }
+                    jPopupMenu.show(mQRlabel, e.getX(), e.getY());
                 }
             }
-        };
-        ActionListener menuAction = e -> {
-            MenuItem item = (MenuItem) e.getSource();
-            if (item == mItemCopy) {
-            } else if (item == mItemPaste) {
+        });
+    }
+
+    private void saveQRcode() {
+        final Icon icon = getQRcode();
+        if (mProject == null || icon == null) {
+            return;
+        }
+        FileSaverDialog dialog = FileChooserFactory.getInstance()
+                .createSaveFileDialog(new FileSaverDescriptor("Save the QR Code",
+                        "Select file where to save the QR code.", "png"), this);
+        VirtualFileWrapper wrapper = dialog.save(mProject.getBaseDir(), Utils.getSuggestFileName());
+        if (wrapper == null) {
+            return;
+        }
+        new SavingImageTask(mProject, icon, wrapper).start();
+    }
+
+    private void setupTextArea() {
+        textArea.setMargin(JBUI.insets(2));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        Utils.setRightMenu(textArea, createPopupMenu());
+    }
+
+    private JPopupMenu createPopupMenu() {
+        JPopupMenu jPopupMenu = new JPopupMenu();
+        // copy
+        JMenuItem copyLine = new JMenuItem("Copy", AllIcons.Actions.Copy);
+        copyLine.setMnemonic('C');
+        copyLine.setAccelerator(KeyStroke.getKeyStroke('C', KeyEvent.CTRL_MASK, false));
+        // paste
+        JMenuItem pasteLine = new JMenuItem("Paste", AllIcons.Actions.Menu_paste);
+        pasteLine.setMnemonic('P');
+        pasteLine.setAccelerator(KeyStroke.getKeyStroke('V', KeyEvent.CTRL_MASK, false));
+        // delete
+        JMenuItem deleteLine = new JMenuItem("Delete", AllIcons.Actions.Delete);
+        deleteLine.setMnemonic('D');
+        deleteLine.setAccelerator(KeyStroke.getKeyStroke('D', KeyEvent.CTRL_MASK, false));
+        // listener
+        final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        copyLine.addActionListener(e -> {
+            String str = textArea.getSelectedText();
+            if (!TextUtils.isEmpty(str)) {
+                clipboard.setContents(new StringSelection(str), null);
             } else {
+                if (!TextUtils.isEmpty(getText())) {
+                    clipboard.setContents(new StringSelection(getText()), null);
+                }
             }
-        };
-        textArea.add(pMenu);
-        textArea.addMouseListener(mouseAdapter);
-        pMenu.add(mItemCopy);
-        mItemCopy.addActionListener(menuAction);
-        pMenu.add(mItemPaste);
-        mItemPaste.addActionListener(menuAction);
-        pMenu.add(mItemCut);
-        mItemCut.addActionListener(menuAction);
+        });
+        pasteLine.addActionListener(e -> {
+            final Transferable transferable = clipboard.getContents(this);
+            final DataFlavor dataFlavor = DataFlavor.stringFlavor;
+            if (transferable.isDataFlavorSupported(dataFlavor)) {
+                try {
+                    String str = (String) transferable.getTransferData(dataFlavor);
+                    if (!TextUtils.isEmpty(str)) {
+                        textArea.insert(str, textArea.getCaretPosition());
+                    }
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+        deleteLine.addActionListener(e -> {
+            String str = textArea.getSelectedText();
+            if (!TextUtils.isEmpty(str)) {
+                textArea.replaceSelection("");
+            } else {
+                setText("");
+            }
+        });
+        // add
+        jPopupMenu.add(copyLine);
+        jPopupMenu.add(pasteLine);
+        jPopupMenu.addSeparator();
+        jPopupMenu.add(deleteLine);
+
+        return jPopupMenu;
     }
 
     public String getText() {
@@ -82,8 +156,12 @@ public class ContentWidget extends JPanel implements ActionListener {
         mQRlabel.setIcon(icon);
     }
 
+    public Icon getQRcode() {
+        return mQRlabel.getIcon();
+    }
+
     public void setInfo(String text) {
-        LabelInfo.setText(text);
+        labelInfo.setText(text);
     }
 
     @Override

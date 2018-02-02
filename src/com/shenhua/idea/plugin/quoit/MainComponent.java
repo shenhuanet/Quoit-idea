@@ -14,7 +14,7 @@ import com.intellij.openapi.wm.ex.ToolWindowManagerListener;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.shenhua.idea.plugin.quoit.actions.*;
-import com.shenhua.idea.plugin.quoit.core.HistoryConfigImpl;
+import com.shenhua.idea.plugin.quoit.ext.Constant;
 import com.shenhua.idea.plugin.quoit.tabs.QuoitContent;
 import com.shenhua.idea.plugin.quoit.ui.ToolWindowPanel;
 import org.jetbrains.annotations.NotNull;
@@ -68,7 +68,7 @@ public class MainComponent extends AbstractProjectComponent {
                 new SaveAction(quoitContent),
                 new AddTabAction(quoitContent),
                 new SettingAction(),
-                new CloseAction(quoitContent));
+                new CloseAction(myProject, quoitContent));
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.UNKNOWN, group, false);
         toolbar.setOrientation(SwingConstants.VERTICAL);
         return toolbar;
