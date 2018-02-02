@@ -3,8 +3,12 @@ package com.shenhua.idea.plugin.quoit.actions;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.project.Project;
+import com.shenhua.idea.plugin.quoit.callback.OnExecuteListener;
 import com.shenhua.idea.plugin.quoit.core.ApiImpl;
+import com.shenhua.idea.plugin.quoit.core.tasks.CodeGenerateTask;
 import com.shenhua.idea.plugin.quoit.ext.Utils;
 import com.shenhua.idea.plugin.quoit.tabs.ITabs;
 import com.shenhua.idea.plugin.quoit.tabs.QuoitContent;
@@ -35,13 +39,36 @@ public class ExecAction extends AnAction {
         if (TextUtils.isEmpty(text)) {
             contentWidget.setInfo("Please Input content.");
             return;
+        } else if (text.length() > 150) {
+            contentWidget.setInfo("Content length to large!");
+            return;
         }
-        ApplicationManager.getApplication().invokeLater(() -> {
-            Icon icon = new ApiImpl().getCode(text);
-            contentWidget.setQRcode(icon);
-            if (!quoitContent.getHistoryWidget().hasSame(text)) {
-                quoitContent.getHistoryWidget().insert(text);
+        text = text.replaceAll("\r|\n", "");
+        final String finalText = text;
+        final Project project = PlatformDataKeys.PROJECT.getData(anActionEvent.getDataContext());
+        new CodeGenerateTask(project, text, new OnExecuteListener() {
+            @Override
+            public void onStart() {
+                contentWidget.setInfo("Starting...");
             }
-        });
+
+            @Override
+            public void onSuccess(Icon icon) {
+                contentWidget.setQRcode(icon);
+                contentWidget.setInfo("Success...");
+            }
+
+            @Override
+            public void onError(String msg) {
+                contentWidget.setInfo("Error...");
+            }
+
+            @Override
+            public void onComplete() {
+                if (!quoitContent.getHistoryWidget().hasSame(finalText)) {
+                    quoitContent.getHistoryWidget().insert(finalText);
+                }
+            }
+        }).start();
     }
 }

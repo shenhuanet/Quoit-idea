@@ -1,5 +1,7 @@
 package com.shenhua.idea.plugin.quoit.callback;
 
+import javax.swing.*;
+
 /**
  * Created by shenhua on 2018-02-01-0001.
  *
@@ -12,6 +14,13 @@ public interface OnExecuteListener {
      * 执行开始时回调
      */
     void onStart();
+
+    /**
+     * 获取成功时回调
+     *
+     * @param icon icon
+     */
+    void onSuccess(Icon icon);
 
     /**
      * 发生错误回调

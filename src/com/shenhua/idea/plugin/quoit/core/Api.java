@@ -10,5 +10,11 @@ import javax.swing.*;
  */
 public interface Api {
 
+    /**
+     * 获取二维码
+     *
+     * @param text text
+     * @return Icon
+     */
     Icon getCode(String text);
 }
