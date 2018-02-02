@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.shenhua.idea.plugin.quoit</id>
     <name>Quoit</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <vendor email="shenhuanet@126.com" url="http://www.shenhuanet.com">ShenhuaTech</vendor>
 
     <description><![CDATA[

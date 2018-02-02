@@ -39,7 +39,7 @@ public class ExecAction extends AnAction {
         if (TextUtils.isEmpty(text)) {
             contentWidget.setInfo("Please Input content.");
             return;
-        } else if (text.length() > 150) {
+        } else if (text.length() > 190) {
             contentWidget.setInfo("Content length to large!");
             return;
         }

@@ -2,11 +2,15 @@ package com.shenhua.idea.plugin.quoit.ui;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
 import com.intellij.openapi.fileChooser.FileSaverDescriptor;
 import com.intellij.openapi.fileChooser.FileSaverDialog;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
+import com.intellij.ui.components.JBRadioButton;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.util.ui.JBUI;
 import com.shenhua.idea.plugin.quoit.core.tasks.SavingImageTask;
 import com.shenhua.idea.plugin.quoit.ext.Utils;
@@ -32,6 +36,7 @@ public class ContentWidget extends JPanel implements ActionListener {
     private JComboBox comboBox1;
     private JLabel mQRlabel;
     private JLabel labelInfo;
+    private JPanel modulePanle;
 
     public ContentWidget(Project mProject, Disposable mDisposable) {
         super(new BorderLayout());
@@ -41,6 +46,23 @@ public class ContentWidget extends JPanel implements ActionListener {
 
         setupTextArea();
         setupImage();
+//        setupImageTools();
+    }
+
+    private void setupImageTools() {
+        SimpleToolWindowPanel stw = new SimpleToolWindowPanel(true, false);
+        ButtonGroup buttonGroup = new ButtonGroup();
+        ActionGroup group = new DefaultActionGroup(
+                new JBRadioAction("Default", "Default", buttonGroup, e -> {
+
+                }, true),
+                new JBRadioAction("Colorful", "Colorful", buttonGroup, e -> {
+
+                })
+        );
+        ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.UNKNOWN, group, true);
+        stw.setToolbar(actionToolbar.getComponent());
+        modulePanle.add(stw, BorderLayout.NORTH);
     }
 
     private void setupImage() {
