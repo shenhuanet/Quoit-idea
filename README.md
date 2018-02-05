@@ -6,11 +6,24 @@
 
 A plug-in that generates QR Code of a specific text.
 
+## Preview
+
+![](https://github.com/shenhuanet/Quoit-idea/blob/master/art/pic_001.png)<br>
+![](https://github.com/shenhuanet/Quoit-idea/blob/master/art/pic_002.png)
+
 ## Change Log
 v1.0.3:<br>Add a variety of landscaping models.<br>
 v1.0.2:<br>Add multiple tabs and refine history and QR code can be saved.<br>
 v1.0.1:<br>Change Idea.<br>
 v1.0.0:<br>First release.<br>
+
+## Installation
+- Using IDE built-in plugin system:
+  - <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Browse repositories...</kbd> > <kbd>Search for "Quoit"</kbd> > <kbd>Install Plugin</kbd>
+- Manually:
+  - Download the [latest release][latest-release] and install it manually using <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Install plugin from disk...</kbd>
+  
+Restart IDE.
 
 ## About Me
 CSDN：http://blog.csdn.net/klxh2009<br>
