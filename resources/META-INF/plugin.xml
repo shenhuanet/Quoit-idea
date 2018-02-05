@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.shenhua.idea.plugin.quoit</id>
     <name>Quoit</name>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <vendor email="shenhuanet@126.com" url="http://www.shenhuanet.com">ShenhuaTech</vendor>
 
     <description><![CDATA[
@@ -9,7 +9,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      First release.<br>
+      v1.0.3:<br>Add a variety of landscaping models.<br>
+      v1.0.2:<br>Add multiple tabs and refine history and QR code can be saved.<br>
+      v1.0.1:<br>Change Idea.<br>
+      v1.0.0:<br>First release.<br>
     ]]>
     </change-notes>
 

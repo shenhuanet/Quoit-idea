@@ -46,7 +46,7 @@ public class ExecAction extends AnAction {
         text = text.replaceAll("\r|\n", "");
         final String finalText = text;
         final Project project = PlatformDataKeys.PROJECT.getData(anActionEvent.getDataContext());
-        new CodeGenerateTask(project, text, new OnExecuteListener() {
+        new CodeGenerateTask(project, text, contentWidget.getMode(),new OnExecuteListener() {
             @Override
             public void onStart() {
                 contentWidget.setInfo("Starting...");

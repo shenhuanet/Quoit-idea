@@ -14,7 +14,8 @@ public interface Api {
      * 获取二维码
      *
      * @param text text
+     * @param mode mode
      * @return Icon
      */
-    Icon getCode(String text);
+    Icon getCode(String text, String mode);
 }

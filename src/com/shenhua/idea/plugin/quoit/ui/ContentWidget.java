@@ -11,6 +11,9 @@ import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
 import com.intellij.ui.components.JBRadioButton;
 import com.intellij.util.ui.JBUI;
+import com.shenhua.idea.plugin.quoit.callback.OnExecuteListener;
+import com.shenhua.idea.plugin.quoit.core.ApiImpl;
+import com.shenhua.idea.plugin.quoit.core.tasks.CodeGenerateTask;
 import com.shenhua.idea.plugin.quoit.core.tasks.SavingImageTask;
 import com.shenhua.idea.plugin.quoit.ext.Utils;
 import org.apache.http.util.TextUtils;
@@ -24,7 +27,7 @@ import java.awt.event.*;
  * Created by shenhua on 2018-02-01-0001.
  *
  * @author shenhua
- * Email shenhuanet@126.com
+ *         Email shenhuanet@126.com
  */
 public class ContentWidget extends JPanel implements ActionListener {
 
@@ -39,6 +42,7 @@ public class ContentWidget extends JPanel implements ActionListener {
     private JBRadioButton radioDefault;
     private JBRadioButton radioColorful;
     private JBRadioButton radioRound;
+    private int currentMode = 0;
 
     public ContentWidget(Project mProject, Disposable mDisposable) {
         super(new BorderLayout());
@@ -56,9 +60,42 @@ public class ContentWidget extends JPanel implements ActionListener {
         buttonGroup.add(radioDefault);
         buttonGroup.add(radioColorful);
         buttonGroup.add(radioRound);
-        radioDefault.addActionListener(e -> System.out.println("a"));
-        radioDefault.addActionListener(e -> System.out.println("b"));
-        radioDefault.addActionListener(e -> System.out.println("c"));
+        radioDefault.addActionListener(e -> changeMode(0));
+        radioColorful.addActionListener(e -> changeMode(1));
+        radioRound.addActionListener(e -> changeMode(2));
+    }
+
+    /**
+     * 更换模型
+     */
+    private void changeMode(int mode) {
+        if (mode != currentMode) {
+            if (TextUtils.isEmpty(getText())) {
+                return;
+            }
+            currentMode = mode;
+            new CodeGenerateTask(mProject, getText(), getMode(), new OnExecuteListener() {
+                @Override
+                public void onStart() {
+                    setInfo("Starting...");
+                }
+
+                @Override
+                public void onSuccess(Icon icon) {
+                    setQRcode(icon);
+                    setInfo("Success...");
+                }
+
+                @Override
+                public void onError(String msg) {
+                    setInfo("Error...");
+                }
+
+                @Override
+                public void onComplete() {
+                }
+            }).start();
+        }
     }
 
     private void setupImage() {
@@ -182,8 +219,27 @@ public class ContentWidget extends JPanel implements ActionListener {
         labelInfo.setText(text);
     }
 
+    public String getMode() {
+        String result = "";
+        switch (currentMode) {
+            case 0:
+                result = ApiImpl.MODE_0;
+                break;
+            case 1:
+                result = ApiImpl.MODE_1;
+                break;
+            case 2:
+                result = ApiImpl.MODE_2;
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
+
 }

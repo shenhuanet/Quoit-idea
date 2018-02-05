@@ -9,6 +9,7 @@ import com.intellij.openapi.vfs.VirtualFileWrapper;
 import com.shenhua.idea.plugin.quoit.callback.OnExecuteListener;
 import com.shenhua.idea.plugin.quoit.core.ApiImpl;
 import com.shenhua.idea.plugin.quoit.ext.Utils;
+import com.shenhua.idea.plugin.quoit.ui.ContentWidget;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ public class CodeGenerateTask {
 
     private final Task.Backgroundable task;
 
-    public CodeGenerateTask(Project project, String text, OnExecuteListener onExecuteListener) {
+    public CodeGenerateTask(Project project, String text, String mode, OnExecuteListener onExecuteListener) {
         onExecuteListener.onStart();
         task = new Task.Backgroundable(project,
                 "Generating QR Code", true, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
@@ -31,7 +32,7 @@ public class CodeGenerateTask {
             @Override
             public void run(@NotNull ProgressIndicator progressIndicator) {
                 try {
-                    Icon icon = new ApiImpl().getCode(text);
+                    Icon icon = new ApiImpl().getCode(text, mode);
                     onExecuteListener.onSuccess(icon);
                 } catch (Exception e) {
                     e.printStackTrace();

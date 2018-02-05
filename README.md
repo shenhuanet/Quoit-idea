@@ -6,6 +6,12 @@
 
 A plug-in that generates QR Code of a specific text.
 
+## Change Log
+v1.0.3:<br>Add a variety of landscaping models.<br>
+v1.0.2:<br>Add multiple tabs and refine history and QR code can be saved.<br>
+v1.0.1:<br>Change Idea.<br>
+v1.0.0:<br>First release.<br>
+
 ## About Me
 CSDN：http://blog.csdn.net/klxh2009<br>
 JianShu：http://www.jianshu.com/u/12a81897d5bc
