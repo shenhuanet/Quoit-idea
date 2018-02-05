@@ -1,5 +1,7 @@
 # Quoit
-[![Build Status](https://img.shields.io/badge/build-developing-yellowgreen.svg)](#)
+
+[![Build Status](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg)](#)
+[![Version](https://img.shields.io/badge/version-1.0.3-green.svg)](https://github.com/shenhuanet/Quoit-idea/releases/tag/v1.0.3)
 [![License2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ![](https://github.com/shenhuanet/Quoit-idea/blob/master/.idea/icon.png)
@@ -21,7 +23,7 @@ v1.0.0:<br>First release.<br>
 - Using IDE built-in plugin system:
   - <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Browse repositories...</kbd> > <kbd>Search for "Quoit"</kbd> > <kbd>Install Plugin</kbd>
 - Manually:
-  - Download the [latest release][latest-release] and install it manually using <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Install plugin from disk...</kbd>
+  - Download the [latest release][latest-release] and install it manually using <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Install plugin from disk...</kbd>
   
 Restart IDE.
 
